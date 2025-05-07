@@ -34,14 +34,15 @@
                 </h2>
                 <p class="mt-2 text-sm text-gray-600">
                     Or
-                    <a href="register.html" class="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">
                         create a new account
                     </a>
                 </p>
             </div>
             
             <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                <form class="space-y-6" id="loginForm">
+                <form action="{{ route('login') }}" method="POST" class="space-y-6" id="loginForm">
+                    @csrf
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700">
                             Email address
@@ -50,7 +51,7 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-envelope text-gray-400"></i>
                             </div>
-                            <input id="email" name="email" type="email" autocomplete="email" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="you@example.com">
+                            <input id="email" name="email" type="email" autocomplete="email" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="masukan email" value ="{{ old('email') }}">
                         </div>
                     </div>
 
@@ -87,7 +88,7 @@
                     </div>
 
                     <div>
-                        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <button href='{{ route('dashboard') }}' type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                                 <i class="fas fa-sign-in-alt text-indigo-500 group-hover:text-indigo-400"></i>
                             </span>

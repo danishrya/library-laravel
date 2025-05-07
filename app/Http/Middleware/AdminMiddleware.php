@@ -4,8 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class AdminMiddleware
 {
@@ -16,9 +17,23 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()&& Auth::user()->role == 'admin') {
+        // Cek dulu apakah user sudah login
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        }
+        
+        // Cek role user
+        if (Auth::user()->role === 'admin') {
             return $next($request);
         }
-        return redirect()->route('login')->with('error', 'You do not have admin access.');
+
+        // Untuk request AJAX/API, return status 403
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json(['message' => 'Anda tidak memiliki akses untuk operasi ini.'], 403);
+        }
+
+        // Redirect dengan pesan error
+        return redirect()->route('books.index')
+            ->with('error', 'Anda tidak memiliki akses untuk halaman ini.');
     }
 }

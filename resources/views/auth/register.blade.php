@@ -46,7 +46,7 @@
             </div>
             
             <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                <form class="space-y-6" id="registerForm">
+                <form id="register_form" action="{{ route('register') }}" method="POST" class="space-y-6" id="registerForm">
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div>
                             <label for="firstName" class="block text-sm font-medium text-gray-700">
@@ -122,7 +122,7 @@
                         <div class="mt-1">
                             <select id="role" name="role" class="form-input block w-full sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border">
                                 <option value="member">Member</option>
-                                <option value="librarian">Librarian</option>
+                                <option value="admin">admin</option>
                             </select>
                         </div>
                         <p class="mt-1 text-xs text-gray-500">Librarian accounts require approval from an administrator</p>
@@ -294,7 +294,7 @@
             console.log('Registration attempt with:', email, role);
             
             alert('Registration successful! Please log in with your new account.');
-            window.location.href = 'login.html';
+            window.location.href = '{{ route('login') }}'; // Redirect to login page
         });
     </script>
 </body>

@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
+use Illuminate\Auth\Events\Logout;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -10,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Show the login form.
      */
     public function showloginform()
     {
@@ -18,55 +20,66 @@ class AuthController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Handle Login Request
      */
-    public function login(request $request)
+    public function login(Request $request)
     {
         $request->validate([
-            'email' => 'require|email',
+            'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email','password');
+        $credentials = $request->only('email', 'password');
 
-        if(Auth::attempt($credentials)) {
-           $request->session()->regenerate();
+        if (Auth::attempt($credentials)) {
+            $request->sesssion()->regenerate();
 
-           return redirect()->intended('dashboard');
+            return redirect()->intended('dashboard');
         }
-
+        
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'The Provided Credentials Do Not Match Our Records',
         ])->onlyInput('email');
+
     }
 
-  
-    public function ShowRegistrationForm()
-    {
+    /**
+     * Show Registration Form.
+     */
+    public function showRegistrationForm(){
         return view('auth.register');
     }
 
+    /**
+     * Handel Regist Req.
+     */
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:8',
-            'role' => 'required|in:admin,user',
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|min:8|confirmed',
+            'role' => 'required|in:member,librarian',
         ]);
 
-     $user = User::create([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|string|min:8',
-        'role' => 'required|in:admin,user',
-     ]);
+        $user = User::create([
+            'firstName' => $request->firstName,
+            'lastName' => $request->lastName,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
 
-     Auth::login($user);
-     return redirect('dashboard');
+        Auth::login($user);
+        return redirect()->route('login')->with('success', 'Akun berhasil dibuat, silakan login.');
+        
     }
 
-    public function logout(Request $request)
+    /**
+     * Handle Log Out Req.
+     */
+    public function logout(request $request)
     {
         Auth::logout();
 

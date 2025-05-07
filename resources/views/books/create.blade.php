@@ -10,36 +10,36 @@
     </div>
     
     <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <form id="bookForm" class="space-y-6">
+        <form id="bookForm" action="{{ route('books.store') }}" method="POST" class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                     <label for="bookTitle" class="block text-sm font-medium text-gray-700">Nama Buku <span class="text-red-500">*</span></label>
-                    <input type="text" id="bookTitle" name="bookTitle" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none p-2 border">
+                    <input type="text" id="bookTitle" value="{{ old('nama_buku') }}" name="bookTitle" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none p-2 border">
                     <p class="text-xs text-gray-500">Masukkan judul lengkap buku</p>
                 </div>
                 
                 <div class="space-y-2">
                     <label for="publisher" class="block text-sm font-medium text-gray-700">Penerbit <span class="text-red-500">*</span></label>
-                    <input type="text" id="publisher" name="publisher" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none p-2 border">
+                    <input type="text" id="publisher" value="{{ old('penerbit') }}" name="publisher" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none p-2 border">
                     <p class="text-xs text-gray-500">Masukkan nama penerbit buku</p>
                 </div>
                 
                 <div class="space-y-2">
                     <label for="publishYear" class="block text-sm font-medium text-gray-700">Tahun Terbit <span class="text-red-500">*</span></label>
-                    <input type="number" id="publishYear" name="publishYear" min="1800" max="2099" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none p-2 border">
+                    <input type="number" id="publishYear" value="{{ old('tahun_terbit') }}" name="publishYear" min="1800" max="2099" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none p-2 border">
                     <p class="text-xs text-gray-500">Masukkan tahun terbit buku (1800-2099)</p>
                 </div>
                 
                 <div class="space-y-2">
                     <label for="pageCount" class="block text-sm font-medium text-gray-700">Jumlah Halaman <span class="text-red-500">*</span></label>
-                    <input type="number" id="pageCount" name="pageCount" min="1" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none p-2 border">
+                    <input type="number" id="pageCount" value="{{ old('halaman') }}" name="pageCount" min="1" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none p-2 border">
                     <p class="text-xs text-gray-500">Masukkan jumlah halaman buku</p>
                 </div>
             </div>
             
             <div class="space-y-2">
                 <label for="description" class="block text-sm font-medium text-gray-700">Deskripsi <span class="text-red-500">*</span></label>
-                <textarea id="description" name="description" rows="4" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none p-2 border"></textarea>
+                <textarea id="description" value="{{ old('description') }}" name="description"  rows="4" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:outline-none p-2 border"></textarea>
                 <p class="text-xs text-gray-500">Masukkan deskripsi atau sinopsis buku</p>
             </div>
             

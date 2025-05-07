@@ -5,26 +5,39 @@ use App\Http\Controllers\BooksController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 
-Route::get('/', function () {
-    return view('welcome'); // Ensure you have a 'welcome' view
+// Authentication Routes
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [AuthController::class, 'register']);
 });
 
-// // Untuk resource controller (rekomendasi)
-// Route::resource('dashboard', DashboardController::class);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// // Atau secara manual
-// Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+// Protected Routes yang memerlukan autentikasi
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Daftarkan rute untuk books
+    Route::get('/books', [BooksController::class, 'index'])->name('books.index');
+    
+    // Penting: rute /books/create harus didefinisikan SEBELUM /books/{book}
+    Route::middleware('admin')->group(function() {
+        Route::get('/books/create', [BooksController::class, 'create'])->name('books.create');
+        Route::post('/books', [BooksController::class, 'store'])->name('books.store');
+        Route::get('/books/{book}/edit', [BooksController::class, 'edit'])->name('books.edit');
+        Route::put('/books/{book}', [BooksController::class, 'update'])->name('books.update');
+        Route::delete('/books/{book}', [BooksController::class, 'destroy'])->name('books.destroy');
+    });
+    
+    // Letakkan rute show SETELAH rute spesifik seperti create dan edit
+    Route::get('/books/{book}', [BooksController::class, 'show'])->name('books.show');
+});
 
-// Route::get('/', function () {
-//     return view('dashboard.index'); // Ensure you have a 'dashboard.index' view
-// });
-// Route::get('/', [BooksController::class, 'index'])->name('books.index');
-// /**
-//  * 
-//  */
+Route::redirect('/', '/books');
 
-// // Define the login route
-// Route::get('/login', function () {
-//     return view('auth.login'); // Ensure you have a 'auth.login' view
-// })->name('login');
-// Route::resource('books', \App\Http\Controllers\BooksController::class);
+// Fallback route
+Route::fallback(function () {
+    return response()->view('errors.404', [], 404);
+});

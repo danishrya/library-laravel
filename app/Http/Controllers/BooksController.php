@@ -30,8 +30,8 @@ class BooksController extends Controller
         $request->validate([
             'nama_buku' => 'required',
             'penerbit' => 'required',
-            'description' => 'required',
             'tahun_terbit' => 'required|date_format:Y',
+            'description' => 'required',
             'halaman' => 'required|integer'
         ]);
 

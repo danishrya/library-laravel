@@ -1,6 +1,17 @@
 @extends('layout.app')
 
 @section('content')
+<div class="space-y-6 w-full">
+    <div class="flex item-center justify-betweeen">
+        <h1 class="text-2xlfont-boldtext-gray-900">dashboard</h1>
+        @if(Auth::user()->isAdmin())
+        <a href="{{ route('books.create') }}" class="bg-primary text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-dark " >
+            <i class="fas-fa-plus"></i>
+            tambah buku
+        </a>
+        @endif
+    </div>
+</div>
 <main class="flex-1 overflow-y-auto p-5">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-gray-800">Dashboard Overview</h1>
@@ -31,7 +42,7 @@
             <div class="flex justify-between items-start">
                 <div>
                     <p class="text-sm font-medium text-gray-500">Total Books</p>
-                    <h3 class="text-3xl font-bold text-gray-800 mt-1">2,547</h3>
+                    <h3 class="text-3xl font-bold text-gray-800 mt-1">{{ $totalBooks ?? 'N/A' }}</h3>
                     <p class="text-sm text-green-600 flex items-center mt-2">
                         <i class="fas fa-arrow-up mr-1"></i>
                         <span>12% from last month</span>
@@ -50,7 +61,7 @@
         <div class="stat-card bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
             <div class="flex justify-between items-start">
                 <div>
-                    <p class="text-sm font-medium text-gray-500">Active Users</p>
+                    <p class="text-sm font-medium text-gray-500"><a href="{{ route('') }}">Total Users</a></p>
                     <h3 class="text-3xl font-bold text-gray-800 mt-1">1,823</h3>
                     <p class="text-sm text-green-600 flex items-center mt-2">
                         <i class="fas fa-arrow-up mr-1"></i>
