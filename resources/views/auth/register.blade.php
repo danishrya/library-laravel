@@ -46,14 +46,14 @@
             </div>
             
             <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                <form id="register_form" action="{{ route('register') }}" method="POST" class="space-y-6" id="registerForm">
+                <form id="register_form" action="{{ route('register') }}" method="GET" class="space-y-6" id="registerForm">
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div>
                             <label for="firstName" class="block text-sm font-medium text-gray-700">
                                 First Name
                             </label>
                             <div class="mt-1">
-                                <input id="firstName" name="firstName" type="text" required class="form-input block w-full sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border">
+                                <input id="firstName" name="firstName" value="{{ old('first_name') }}" type="text" required class="form-input block w-full sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border">
                             </div>
                         </div>
                         
@@ -187,6 +187,16 @@
     </div>
 
     <script>
+    function togglePassword(inputId, button) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            button.textContent = 'Hide';
+        } else {
+            input.type = 'password';
+            button.textContent = 'Show';
+        }
+    }
         // Toggle password visibility
         document.getElementById('togglePassword').addEventListener('click', function() {
             const passwordInput = document.getElementById('password');

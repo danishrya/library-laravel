@@ -7,9 +7,9 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     /**
-     * the application's global HTTP middleware stack.
+     * The application's global HTTP middleware stack.
      * 
-     * these middleware are run during every request to your application.
+     * These middleware are run during every request to your application.
      * 
      * @var array<int, class-string|string>
      */
@@ -23,9 +23,9 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * the application's route middleware groups.
+     * The application's route middleware groups.
      * 
-     * @var array<string, array<int, class-string|string>
+     * @var array<string, array<int, class-string|string>>
      */
     protected $middlewareGroups = [
         'web' => [
@@ -45,9 +45,9 @@ class Kernel extends HttpKernel
     ];
 
     /**
-     * the application's route middleware.
+     * The application's route middleware.
      * 
-     * aliases for middleware can be defined here to make them more readable.
+     * Aliases for middleware can be defined here to make them more readable.
      * 
      * @var array<string, class-string|string>
      */
@@ -60,12 +60,11 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
-        'precognitive'=> \Illuminate\Foundation\http\Middleware\HandlePrecognitiveRequests::class,
+        'precognitive'=> \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         // Other middleware
         ];
-// Removed the handle method as it conflicts with the parent class.
 }

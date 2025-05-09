@@ -51,7 +51,7 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-envelope text-gray-400"></i>
                             </div>
-                            <input id="email" name="email" type="email" autocomplete="email" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="masukan email" value ="{{ old('email') }}">
+                            <input id="email" name="email"  type="email" autocomplete="email" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="masukan email" value ="{{ old('email') }}">
                         </div>
                     </div>
 
@@ -63,7 +63,7 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-lock text-gray-400"></i>
                             </div>
-                            <input id="password" name="password" type="password" autocomplete="current-password" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="••••••••">
+                            <input id="password" value="{{ old('password') }}" name="password" type="password" autocomplete="current-password" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="••••••••">
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                                 <button type="button" id="togglePassword" class="text-gray-400 hover:text-gray-500 focus:outline-none">
                                     <i class="fas fa-eye"></i>
@@ -151,6 +151,17 @@
                 icon.classList.add('fa-eye');
             }
         });
+        
+    function togglePassword(inputId, button) {
+        const input = document.getElementById(inputId);
+        if (input.type === 'password') {
+            input.type = 'text';
+            button.textContent = 'Hide';
+        } else {
+            input.type = 'password';
+            button.textContent = 'Show';
+        }
+    }
         
         // Form submission
         document.getElementById('loginForm').addEventListener('submit', function(e) {

@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BooksController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Middleware\Authenticate;
 
-// Authentication Routes
+// Auth routes
 Route::middleware('guest')->group(function () {
+    Route::get('/', [AuthController::class, 'index'])->name('home');
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
     Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
@@ -15,29 +17,27 @@ Route::middleware('guest')->group(function () {
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Protected Routes yang memerlukan autentikasi
+// Protected routes requiring authentication
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Daftarkan rute untuk books
+    // Books routes
     Route::get('/books', [BooksController::class, 'index'])->name('books.index');
     
-    // Penting: rute /books/create harus didefinisikan SEBELUM /books/{book}
-    Route::middleware('admin')->group(function() {
+    // Admin-only routes
+    Route::middleware('admin')->group(function () {
         Route::get('/books/create', [BooksController::class, 'create'])->name('books.create');
         Route::post('/books', [BooksController::class, 'store'])->name('books.store');
-        Route::get('/books/{book}/edit', [BooksController::class, 'edit'])->name('books.edit');
-        Route::put('/books/{book}', [BooksController::class, 'update'])->name('books.update');
-        Route::delete('/books/{book}', [BooksController::class, 'destroy'])->name('books.destroy');
+        Route::get('/books/{books}/edit', [BooksController::class, 'edit'])->name('books.edit');
+        Route::put('/books/{books}', [BooksController::class, 'update'])->name('books.update');
+        Route::delete('/books/{books}', [BooksController::class, 'destroy'])->name('books.destroy');
     });
     
-    // Letakkan rute show SETELAH rute spesifik seperti create dan edit
-    Route::get('/books/{book}', [BooksController::class, 'show'])->name('books.show');
+    // Place show route after specific routes like create and edit
+    Route::get('/books/{books}', [BooksController::class, 'show'])->name('books.show');
 });
-
-Route::redirect('/', '/books');
 
 // Fallback route
 Route::fallback(function () {
-    return response()->view('errors.404', [], 404);
+    return view('errors.404');
 });

@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+    public function index()
+{
+    return view('auth.login'); // atau redirect ke login/dashboard sesuai kebutuhan
+}
     /**
      * Show the login form.
      */

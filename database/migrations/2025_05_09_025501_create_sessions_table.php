@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_book', function (Blueprint $table) {
+        Schema::create('sessions', function (Blueprint $table) {
             $table->id();
-            $table->string('nama buku');
-            $table->string('penerbit');
-            $table->text('description'); 
-            $table->year('tahun terbit');
-            $table->string('halaman');
             $table->timestamps();
         });
     }
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('sessions');
     }
 };
