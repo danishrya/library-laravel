@@ -30,7 +30,7 @@
                 <a href="#" class="dropdown-item">
                     <i class="fas fa-cog mr-2"></i> Settings
                 </a>
-                <a href="{{ route('auth.login') }}" class="dropdown-item border-t">
+                <a href="{{ route('login') }}" class="dropdown-item border-t">
                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
                 </a>
             </div>

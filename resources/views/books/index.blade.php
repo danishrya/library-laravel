@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-semibold text-gray-800">Books Management</h1>
         <div class="flex space-x-2">
-            <a href="create.html" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg flex items-center space-x-2 transition duration-200">
+            <a href="{{ route('books.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg flex items-center space-x-2 transition duration-200">
                 <i class="fas fa-plus"></i>
                 <span>Add New Book</span>
             </a>

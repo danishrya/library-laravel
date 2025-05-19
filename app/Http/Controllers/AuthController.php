@@ -112,6 +112,7 @@ class AuthController extends Controller
                 'error' => 'An error occurred while creating the account. ' . $e->getMessage()
             ])->withInput($request->except('password', 'password_confirmation'));
         }
+
     }
 
     /**

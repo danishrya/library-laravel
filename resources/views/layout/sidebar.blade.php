@@ -10,7 +10,7 @@
     </div>
     
     <nav class="mt-10">
-        <a href="{{ route('dashboard') }}" class="sidebar-link active block py-2.5 px-4 rounded transition duration-200 flex items-center space-x-3">
+        <a href="{{ route('dashboard.index') }}" class="sidebar-link active block py-2.5 px-4 rounded transition duration-200 flex items-center space-x-3">
             <i class="fas fa-home"></i>
             <span>Dashboard</span>
         </a>

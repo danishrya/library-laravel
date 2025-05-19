@@ -13,6 +13,6 @@ class Authenticate
      */
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('dashboard');
+        return $request->expectsJson() ? null : route('dashboard.index');
     }
 }

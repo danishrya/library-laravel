@@ -4,12 +4,12 @@
 <div class="space-y-6 w-full">
     <div class="flex item-center justify-betweeen">
         <h1 class="text-2xlfont-boldtext-gray-900">dashboard</h1>
-        @if(Auth::user()->isAdmin())
+        {{-- @if(Auth::user()->isAdmin())
         <a href="{{ route('books.create') }}" class="bg-primary text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-dark " >
             <i class="fas-fa-plus"></i>
             tambah buku
         </a>
-        @endif
+        @endif --}}
     </div>
 </div>
 <main class="flex-1 overflow-y-auto p-5">
@@ -58,7 +58,7 @@
         </div>
         
         <!-- Active Users -->
-        <div class="stat-card bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
+        {{-- <div class="stat-card bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500">
             <div class="flex justify-between items-start">
                 <div>
                     <p class="text-sm font-medium text-gray-500"><a href="{{ route('') }}">Total Users</a></p>
@@ -76,7 +76,7 @@
                 <a href="#" class="text-sm text-green-600 hover:text-green-800 font-medium">View all users</a>
             </div>
         </div>
-        
+         --}}
         <!-- Books Borrowed -->
         <div class="stat-card bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500">
             <div class="flex justify-between items-start">

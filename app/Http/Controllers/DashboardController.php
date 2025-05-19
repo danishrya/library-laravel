@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Http\Kernel;
 
 class DashboardController extends Controller
 {
@@ -30,7 +31,7 @@ class DashboardController extends Controller
         $totalUsers = User::where('role', 'user')->count();
         $latestBooks = Book::latest()->take(5)->get();
 
-        return view('dashboard', [
+        return view('dashboard.index', [
             'totalBooks' => $totalBooks,
             'totalUsers' => $totalUsers,
             'latestBooks' => $latestBooks,

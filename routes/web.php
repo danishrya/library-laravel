@@ -6,7 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 
 // Auth routes
-Route::middleware('guest')->group(function () {
+Route::middleware('auth')->group(function () {
     Route::get('/', [AuthController::class, 'index'])->name('home');
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [AuthController::class, 'login']);
@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/books/{books}', [BooksController::class, 'show'])->name('books.show'); // Show route should be placed here
 
     // Admin-only routes
-    Route::middleware('admin')->group(function () {
+    Route::middleware('auth')->group(function () {
     Route::get('/books/create', [BooksController::class, 'create'])->name('books.create');
     Route::post('/books', [BooksController::class, 'store'])->name('books.store');
     Route::get('/books/{books}/edit', [BooksController::class, 'edit'])->name('books.edit');

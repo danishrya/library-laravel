@@ -46,7 +46,18 @@
             </div>
             
             <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                <form id="register_form" action="{{ route('register') }}" method="GET" class="space-y-6" id="registerForm">
+                @if ($errors->any())
+    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <strong class="font-bold">Oops! Something went wrong.</strong>
+        <ul class="mt-2 list-disc list-inside text-sm">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+                <form id="register_form" action="{{ route('register') }}" method="POST" class="space-y-6" id="registerForm">
+                    @csrf
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div>
                             <label for="firstName" class="block text-sm font-medium text-gray-700">
@@ -103,7 +114,7 @@
                     </div>
                     
                     <div>
-                        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">
+                        <label for="Password_confirmation" class="block text-sm font-medium text-gray-700">
                             Confirm Password
                         </label>
                         <div class="mt-1 relative rounded-md shadow-sm">
@@ -186,7 +197,7 @@
         </div>
     </div>
 
-    <script>
+    {{-- <script>
     function togglePassword(inputId, button) {
         const input = document.getElementById(inputId);
         if (input.type === 'password') {
@@ -272,40 +283,40 @@
         document.getElementById('confirmPassword').addEventListener('input', checkPasswordsMatch);
         
         // Form submission
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // document.getElementById('register_form').addEventListener('submit', function(e) {
+        //     e.preventDefault();
             
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const role = document.getElementById('role').value;
-            const terms = document.getElementById('terms').checked;
+        //     const firstName = document.getElementById('firstName').value;
+        //     const lastName = document.getElementById('lastName').value;
+        //     const email = document.getElementById('email').value;
+        //     const password = document.getElementById('password').value;
+        //     const confirmPassword = document.getElementById('confirmPassword').value;
+        //     const role = document.getElementById('role').value;
+        //     const terms = document.getElementById('terms').checked;
             
-            // Validate form
-            if (!firstName || !lastName || !email || !password || !confirmPassword) {
-                alert('Please fill in all required fields');
-                return;
-            }
+        //     // Validate form
+        //     if (!firstName || !lastName || !email || !password || !confirmPassword) {
+        //         alert('Please fill in all required fields');
+        //         return;
+        //     }
             
-            if (password !== confirmPassword) {
-                alert('Passwords do not match');
-                return;
-            }
+        //     if (password !== confirmPassword) {
+        //         alert('Passwords do not match');
+        //         return;
+        //     }
             
-            if (!terms) {
-                alert('You must agree to the Terms of Service and Privacy Policy');
-                return;
-            }
+        //     if (!terms) {
+        //         alert('You must agree to the Terms of Service and Privacy Policy');
+        //         return;
+        //     }
             
-            // Here you would normally send the data to your backend for registration
-            // For demo purposes, we'll just redirect to the login page
-            console.log('Registration attempt with:', email, role);
+        //     // Here you would normally send the data to your backend for registration
+        //     // For demo purposes, we'll just redirect to the login page
+        //     console.log('Registration attempt with:', email, role);
             
-            alert('Registration successful! Please log in with your new account.');
-            window.location.href = '{{ route('login') }}'; // Redirect to login page
-        });
-    </script>
+        //     alert('Registration successful! Please log in with your new account.');
+        //     window.location.href = '{{ route('login') }}'; // Redirect to login page
+        // });
+    </script> --}}
 </body>
 </html>

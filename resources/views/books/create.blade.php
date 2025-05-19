@@ -66,7 +66,7 @@
                     <span>Reset</span>
                 </button>
                 <button  type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg flex items-center space-x-2 transition duration-200">
-                    <a href="{{ route('dashboard') }}" method="get">
+                    <a href="{{ route('dashboard.index') }}" method="get">
                         <i class="fas fa-save"></i>
                     <span>Save Book</span>
                     </a>
