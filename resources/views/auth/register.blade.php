@@ -1,3 +1,4 @@
+register.blade.php
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,16 +48,16 @@
             
             <div class="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                 @if ($errors->any())
-    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-        <strong class="font-bold">Oops! Something went wrong.</strong>
-        <ul class="mt-2 list-disc list-inside text-sm">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-                <form id="register_form" action="{{ route('register') }}" method="POST" class="space-y-6" id="registerForm">
+                <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    <strong class="font-bold">Oops! Something went wrong.</strong>
+                    <ul class="mt-2 list-disc list-inside text-sm">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+                <form id="register_form" action="{{ route('register') }}" method="POST" class="space-y-6">
                     @csrf
                     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
                         <div>
@@ -64,7 +65,7 @@
                                 First Name
                             </label>
                             <div class="mt-1">
-                                <input id="firstName" name="firstName" value="{{ old('first_name') }}" type="text" required class="form-input block w-full sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border">
+                                <input id="firstName" name="firstName" value="{{ old('firstName') }}" type="text" required class="form-input block w-full sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border">
                             </div>
                         </div>
                         
@@ -73,7 +74,7 @@
                                 Last Name
                             </label>
                             <div class="mt-1">
-                                <input id="lastName" name="lastName" type="text" required class="form-input block w-full sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border">
+                                <input id="lastName" name="lastName" type="text" value="{{ old('lastName') }}" required class="form-input block w-full sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border">
                             </div>
                         </div>
                     </div>
@@ -86,7 +87,7 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-envelope text-gray-400"></i>
                             </div>
-                            <input id="email" name="email" type="email" autocomplete="email" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="you@example.com">
+                            <input id="email" name="email" type="email" value="{{ old('email') }}" autocomplete="email" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="you@example.com">
                         </div>
                     </div>
                     
@@ -114,14 +115,14 @@
                     </div>
                     
                     <div>
-                        <label for="Password_confirmation" class="block text-sm font-medium text-gray-700">
+                        <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
                             Confirm Password
                         </label>
                         <div class="mt-1 relative rounded-md shadow-sm">
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-lock text-gray-400"></i>
                             </div>
-                            <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="••••••••">
+                            <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="••••••••">
                         </div>
                         <p id="passwordMatch" class="mt-1 text-xs text-gray-500 hidden">Passwords match</p>
                     </div>
@@ -133,7 +134,8 @@
                         <div class="mt-1">
                             <select id="role" name="role" class="form-input block w-full sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border">
                                 <option value="member">Member</option>
-                                <option value="admin">admin</option>
+                                <option value="librarian">Librarian</option>
+                                <option value="admin">Admin</option>
                             </select>
                         </div>
                         <p class="mt-1 text-xs text-gray-500">Librarian accounts require approval from an administrator</p>
@@ -197,7 +199,7 @@
         </div>
     </div>
 
-    {{-- <script>
+    <script>
     function togglePassword(inputId, button) {
         const input = document.getElementById(inputId);
         if (input.type === 'password') {
@@ -262,7 +264,7 @@
         // Check if passwords match
         function checkPasswordsMatch() {
             const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+            const confirmPassword = document.getElementById('password_confirmation').value;
             const matchText = document.getElementById('passwordMatch');
             
             if (confirmPassword) {
@@ -280,43 +282,9 @@
             }
         }
         
-        document.getElementById('confirmPassword').addEventListener('input', checkPasswordsMatch);
+        document.getElementById('password_confirmation').addEventListener('input', checkPasswordsMatch);
         
-        // Form submission
-        // document.getElementById('register_form').addEventListener('submit', function(e) {
-        //     e.preventDefault();
-            
-        //     const firstName = document.getElementById('firstName').value;
-        //     const lastName = document.getElementById('lastName').value;
-        //     const email = document.getElementById('email').value;
-        //     const password = document.getElementById('password').value;
-        //     const confirmPassword = document.getElementById('confirmPassword').value;
-        //     const role = document.getElementById('role').value;
-        //     const terms = document.getElementById('terms').checked;
-            
-        //     // Validate form
-        //     if (!firstName || !lastName || !email || !password || !confirmPassword) {
-        //         alert('Please fill in all required fields');
-        //         return;
-        //     }
-            
-        //     if (password !== confirmPassword) {
-        //         alert('Passwords do not match');
-        //         return;
-        //     }
-            
-        //     if (!terms) {
-        //         alert('You must agree to the Terms of Service and Privacy Policy');
-        //         return;
-        //     }
-            
-        //     // Here you would normally send the data to your backend for registration
-        //     // For demo purposes, we'll just redirect to the login page
-        //     console.log('Registration attempt with:', email, role);
-            
-        //     alert('Registration successful! Please log in with your new account.');
-        //     window.location.href = '{{ route('login') }}'; // Redirect to login page
-        // });
-    </script> --}}
+        // Form submission JS removed
+    </script>
 </body>
 </html>

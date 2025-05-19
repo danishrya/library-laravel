@@ -1,4 +1,17 @@
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="tailwind.min.css">
+    <title>Document</title>
+</head>
+<body>
+    @extends('layout.app')
+    @section('content')
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div class="bg-white rounded-lg shadow-md p-6 flex items-center">
                         <div class="rounded-full bg-blue-100 p-3 mr-4">
                             <i class="fas fa-users text-blue-600 text-xl"></i>
@@ -330,3 +343,8 @@
                         </div>
                     </div>
                 </div>
+                @endsection
+</body>
+</html>
+
+

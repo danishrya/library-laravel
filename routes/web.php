@@ -5,14 +5,12 @@ use App\Http\Controllers\BooksController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 
-// Auth routes
-Route::middleware('auth')->group(function () {
-    Route::get('/', [AuthController::class, 'index'])->name('home');
-    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
-});
+// Auth routes - pindahkan di luar middleware auth
+Route::get('/', [AuthController::class, 'index'])->name('home');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
 
 // Logout route
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
@@ -27,16 +25,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/books/{books}', [BooksController::class, 'show'])->name('books.show'); // Show route should be placed here
 
     // Admin-only routes
-    Route::middleware('auth')->group(function () {
-    Route::get('/books/create', [BooksController::class, 'create'])->name('books.create');
-    Route::post('/books', [BooksController::class, 'store'])->name('books.store');
-    Route::get('/books/{books}/edit', [BooksController::class, 'edit'])->name('books.edit');
-    Route::put('/books/{books}', [BooksController::class, 'update'])->name('books.update');
-    Route::delete('/books/{books}', [BooksController::class, 'destroy'])->name('books.destroy');
-});
+    Route::middleware('admin')->group(function () {
+        Route::get('/books/create', [BooksController::class, 'create'])->name('books.create');
+        Route::post('/books', [BooksController::class, 'store'])->name('books.store');
+        Route::get('/books/{books}/edit', [BooksController::class, 'edit'])->name('books.edit');
+        Route::put('/books/{books}', [BooksController::class, 'update'])->name('books.update');
+        Route::delete('/books/{books}', [BooksController::class, 'destroy'])->name('books.destroy');
+    });
 });
 
+route::get('/user', function () {
+    return view('user.user');
+})->middleware('auth')->name('user');
+
 // Fallback route for 404 errors
-Route::fallback(function () {
-    return view('errors.404');
-});
+// Route::fallback(function () {
+//     return view('errors.404');
+// });

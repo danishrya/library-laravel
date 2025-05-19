@@ -1,4 +1,4 @@
-<header class="bg-white shadow-md flex items-center justify-between p-4">
+<header class="bg-white shadow-md flex sticky items-center justify-between p-4">
     <div class="flex items-center">
         <button class="md:hidden focus:outline-none mr-3" id="openSidebar">
             <i class="fas fa-bars text-gray-600 text-lg"></i>
@@ -24,13 +24,13 @@
                 <i class="fas fa-chevron-down text-xs text-gray-500"></i>
             </button>
             <div class="dropdown-content">
-                <a href="#" class="dropdown-item">
+                <a href="{{ route('user') }}" class="dropdown-item">
                     <i class="fas fa-user mr-2"></i> Profile
                 </a>
                 <a href="#" class="dropdown-item">
                     <i class="fas fa-cog mr-2"></i> Settings
                 </a>
-                <a href="{{ route('login') }}" class="dropdown-item border-t">
+                <a href="{{ route('logout') }}" class="dropdown-item border-t">
                     <i class="fas fa-sign-out-alt mr-2"></i> Logout
                 </a>
             </div>

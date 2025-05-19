@@ -87,7 +87,7 @@ class AuthController extends Controller
             'lastName' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|min:8|confirmed',
-            'role' => 'required|in:member,librarian,admin', // Adding admin as an option
+            'role' => 'required|in:member,librarian,admin',
         ]);
 
         try {
@@ -100,7 +100,7 @@ class AuthController extends Controller
             ]);
 
             // Log for debugging
-            Log::info('User  registered successfully: ' . $request->email);
+            Log::info('User registered successfully: ' . $request->email);
 
             Auth::login($user);
             return redirect()->route('dashboard.index')->with('success', 'Account created successfully and you are now logged in.');
@@ -112,7 +112,6 @@ class AuthController extends Controller
                 'error' => 'An error occurred while creating the account. ' . $e->getMessage()
             ])->withInput($request->except('password', 'password_confirmation'));
         }
-
     }
 
     /**

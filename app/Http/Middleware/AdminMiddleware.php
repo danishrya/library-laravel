@@ -11,14 +11,14 @@ use Illuminate\Support\Facades\Log;
 class AdminMiddleware
 {
   public function handle(Request $request, Closure $next): mixed
-{
+  {
     // Middleware auth seharusnya sudah menangani ini, tapi untuk kehati-hatian
     if (!Auth::check()) {
         return redirect()->route('login');
     }
     
     // Log the user's role for debugging
-    Log::info('User  role: ' . Auth::user()->role);
+    Log::info('User role: ' . Auth::user()->role);
 
     // Cek role user
     if (Auth::user()->role === 'admin') {
@@ -33,6 +33,5 @@ class AdminMiddleware
     // Redirect dengan pesan error
     return redirect()->route('dashboard.index')
         ->with('error', 'Anda tidak memiliki akses untuk halaman ini.');
-}
-
+  }
 }

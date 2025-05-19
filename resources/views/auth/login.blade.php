@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,8 +52,11 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-envelope text-gray-400"></i>
                             </div>
-                            <input id="email" name="email"  type="email" autocomplete="email" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="masukan email" value ="{{ old('email') }}">
+                            <input id="email" name="email" type="email" autocomplete="email" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="masukan email" value="{{ old('email') }}">
                         </div>
+                        @error('email')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
@@ -63,19 +67,22 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <i class="fas fa-lock text-gray-400"></i>
                             </div>
-                            <input id="password" value="{{ old('password') }}" name="password" type="password" autocomplete="current-password" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="••••••••">
+                            <input id="password" name="password" type="password" autocomplete="current-password" required class="form-input block w-full pl-10 sm:text-sm border-gray-300 rounded-md focus:outline-none p-2 border" placeholder="••••••••">
                             <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
                                 <button type="button" id="togglePassword" class="text-gray-400 hover:text-gray-500 focus:outline-none">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>
                         </div>
+                        @error('password')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
-                            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                            <label for="remember-me" class="ml-2 block text-sm text-gray-900">
+                            <input id="remember" name="remember" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                            <label for="remember" class="ml-2 block text-sm text-gray-900">
                                 Remember me
                             </label>
                         </div>
@@ -88,7 +95,7 @@
                     </div>
 
                     <div>
-                        <button href='{{ route('dashboard.index') }}' type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
                                 <i class="fas fa-sign-in-alt text-indigo-500 group-hover:text-indigo-400"></i>
                             </span>
@@ -152,35 +159,18 @@
             }
         });
         
-    function togglePassword(inputId, button) {
-        const input = document.getElementById(inputId);
-        if (input.type === 'password') {
-            input.type = 'text';
-            button.textContent = 'Hide';
-        } else {
-            input.type = 'password';
-            button.textContent = 'Show';
-        }
-    }
-        
-        // Form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            // Here you would normally send the data to your backend for authentication
-            // For demo purposes, we'll just redirect to the dashboard
-            console.log('Login attempt with:', email);
-            
-            // Simple validation
-            if (email && password) {
-                window.location.href = '{{ route('dashboard.index') }}'; // Redirect to dashboard
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = 'Hide';
             } else {
-                alert('Please enter both email and password');
+                input.type = 'password';
+                button.textContent = 'Show';
             }
-        });
+        }
+        
+        // Removed the form submission override JavaScript
     </script>
 </body>
 </html>
