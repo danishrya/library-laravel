@@ -10,6 +10,13 @@
             </a>
         </div>
     </div>
+
+    @if(session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+        <span class="block sm:inline">{{ session('success') }}</span>
+    </div>
+    @endif
+
     <!-- Books Table -->
     <div class="bg-white rounded-lg shadow-md overflow-hidden mb-4">
         <div class="table-container overflow-x-auto">
@@ -17,25 +24,16 @@
                 <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Title
+                            Book Name
                         </th>
                         <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Author
-                        </th>
-                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            ISBN
+                            Publisher
                         </th>
                         <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Year
                         </th>
                         <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Genre
-                        </th>
-                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Rating
-                        </th>
-                        <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Status
+                            Pages
                         </th>
                         <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Actions
@@ -43,372 +41,49 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200 text-xs">
-                    <!-- Book 1 -->
+                    @forelse($books as $book)
                     <tr>
                         <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="font-medium text-gray-900">To Kill a Mockingbird</div>
+                            <div class="font-medium text-gray-900">{{ $book->nama_buku }}</div>
                         </td>
                         <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Harper Lee</div>
+                            <div class="text-gray-900">{{ $book->penerbit }}</div>
                         </td>
                         <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">978-0-06-112008-4</div>
+                            <div class="text-gray-900">{{ $book->tahun_terbit }}</div>
                         </td>
                         <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">1960</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Fiction</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="flex items-center text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span class="ml-1 text-gray-600">4.5</span>
-                            </div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Available
-                            </span>
+                            <div class="text-gray-900">{{ $book->jumlah_halaman }}</div>
                         </td>
                         <td class="px-4 py-2 whitespace-nowrap font-medium">
                             <div class="flex space-x-2">
-                                <a href="book-detail.html?id=1" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                <a href="#" class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                                <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
+                                <a href="{{ route('books.show', $book) }}" class="text-indigo-600 hover:text-indigo-900">View</a>
+                                @if(auth()->user() && auth()->user()->is_admin)
+                                <a href="{{ route('books.edit', $book) }}" class="text-yellow-600 hover:text-yellow-900">Edit</a>
+                                <form action="{{ route('books.destroy', $book) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete this book?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
+                                </form>
+                                @endif
                             </div>
                         </td>
                     </tr>
-                    
-                    <!-- Book 2 -->
-                    {{-- <tr>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="font-medium text-gray-900">The Great Gatsby</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">F. Scott Fitzgerald</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">978-0-7432-7356-5</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">1925</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Fiction</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="flex items-center text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span class="ml-1 text-gray-600">4.5</span>
-                            </div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                Borrowed
-                            </span>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap font-medium">
-                            <div class="flex space-x-2">
-                                <a href="book-detail.html?id=2" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                <a href="#" class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                                <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                            </div>
+                    @empty
+                    <tr>
+                        <td colspan="5" class="px-4 py-2 text-center text-gray-500">
+                            No books found. <a href="{{ route('books.create') }}" class="text-indigo-600 hover:underline">Add a book</a>
                         </td>
                     </tr>
-                    
-                    <!-- Book 3 -->
-                    <tr>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="font-medium text-gray-900">The Catcher in the Rye</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">J.D. Salinger</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">978-0-316-76948-0</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">1951</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Fiction</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="flex items-center text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <span class="ml-1 text-gray-600">4.0</span>
-                            </div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Available
-                            </span>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap font-medium">
-                            <div class="flex space-x-2">
-                                <a href="book-detail.html?id=3" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                <a href="#" class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                                <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                            </div>
-                        </td>
-                    </tr>
-                    
-                    <!-- Book 4 -->
-                    <tr>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="font-medium text-gray-900">Of Mice and Men</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">John Steinbeck</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">978-0-14-017739-8</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">1937</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Fiction</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="flex items-center text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <span class="ml-1 text-gray-600">4.0</span>
-                            </div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                Reserved
-                            </span>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap font-medium">
-                            <div class="flex space-x-2">
-                                <a href="book-detail.html?id=4" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                <a href="#" class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                                <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                            </div>
-                        </td>
-                    </tr>
-                    
-                    <!-- Book 5 -->
-                    <tr>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="font-medium text-gray-900">Lord of the Flies</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">William Golding</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">978-0-571-05686-6</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">1954</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Fiction</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="flex items-center text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <i class="far fa-star"></i>
-                                <span class="ml-1 text-gray-600">3.5</span>
-                            </div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Available
-                            </span>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap font-medium">
-                            <div class="flex space-x-2">
-                                <a href="book-detail.html?id=5" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                <a href="#" class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                                <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                            </div>
-                        </td>
-                    </tr>
-                    
-                    <!-- Book 6 -->
-                    <tr>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="font-medium text-gray-900">1984</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">George Orwell</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">978-0-452-28423-4</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">1949</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Fiction</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="flex items-center text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                                <span class="ml-1 text-gray-600">4.5</span>
-                            </div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Available
-                            </span>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap font-medium">
-                            <div class="flex space-x-2">
-                                <a href="book-detail.html?id=6" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                <a href="#" class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                                <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                            </div>
-                        </td>
-                    </tr>
-                    
-                    <!-- Book 7 -->
-                    <tr>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="font-medium text-gray-900">Brave New World</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Aldous Huxley</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">978-0-06-085052-4</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">1932</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Fiction</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="flex items-center text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <span class="ml-1 text-gray-600">4.0</span>
-                            </div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                Borrowed
-                            </span>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap font-medium">
-                            <div class="flex space-x-2">
-                                <a href="book-detail.html?id=7" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                <a href="#" class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                                <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                            </div>
-                        </td>
-                    </tr>
-                    
-                    <!-- Book 8 -->
-                    <tr>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="font-medium text-gray-900">Pride and Prejudice</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Jane Austen</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">978-0-14-143951-8</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">1813</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="text-gray-900">Fiction</div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <div class="flex items-center text-yellow-400">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <span class="ml-1 text-gray-600">5.0</span>
-                            </div>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                Available
-                            </span>
-                        </td>
-                        <td class="px-4 py-2 whitespace-nowrap font-medium">
-                            <div class="flex space-x-2">
-                                <a href="book-detail.html?id=8" class="text-indigo-600 hover:text-indigo-900">View</a>
-                                <a href="#" class="text-yellow-600 hover:text-yellow-900">Edit</a>
-                                <a href="#" class="text-red-600 hover:text-red-900">Delete</a>
-                            </div>
-                        </td>
-                    </tr> --}}
+                    @endforelse
                 </tbody>
             </table>
         </div>
     </div>
     
-    <!-- Pagination - Simplified -->
-    <div class="flex items-center justify-between text-sm">
-        <div>
-            <p class="text-gray-700">
-                Showing <span class="font-medium">1</span> to <span class="font-medium">8</span> of <span class="font-medium">2,547</span> results
-            </p>
-        </div>
-        <div>
-            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                <a href="#" class="relative inline-flex items-center px-2 py-1 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                    <span class="sr-only">Previous</span>
-                    <i class="fas fa-chevron-left text-xs"></i>
-                </a>
-                <a href="#" aria-current="page" class="z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-3 py-1 border text-sm font-medium">
-                    1
-                </a>
-                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-sm font-medium">
-                    2
-                </a>
-                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-sm font-medium">
-                    3
-                </a>
-                <span class="relative inline-flex items-center px-3 py-1 border border-gray-300 bg-white text-sm font-medium text-gray-700">
-                    ...
-                </span>
-                <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-3 py-1 border text-sm font-medium">
-                    319
-                </a>
-                <a href="#" class="relative inline-flex items-center px-2 py-1 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                    <span class="sr-only">Next</span>
-                    <i class="fas fa-chevron-right text-xs"></i>
-                </a>
-            </nav>
-        </div>
+    <!-- Pagination -->
+    <div class="mt-4">
+        {{ $books->links() }}
     </div>
 </main>
 @endsection

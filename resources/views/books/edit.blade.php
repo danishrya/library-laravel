@@ -1,66 +1,75 @@
-@extends('layouts.app')
+@extends('layout.app')
 @section('content')
-
- <!-- Edit book content -->
- <main class="p-6">
-    <div class="flex items-center justify-between mb-6">
-        <h2 class="text-3xl font-bold tracking-tight">Edit Buku</h2>
-        <a href="{{ route('books.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Kembali</a>
+<main class="flex-1 overflow-y-auto p-4">
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-xl font-semibold text-gray-800">Edit Book</h1>
+        <div class="flex space-x-2">
+            <a href="{{ route('books.index') }}" class="bg-gray-600 hover:bg-gray-700 text-white py-1.5 px-3 rounded-lg flex items-center space-x-1 transition duration-200 text-sm">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to Books</span>
+            </a>
+        </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow overflow-hidden">
-        <div class="p-5 border-b border-gray-200">
-            <h3 class="text-lg font-semibold">Detail Buku</h3>
-            <p class="text-sm text-gray-500">Edit informasi buku</p>
-        </div>
-        <div class="p-5">
-            @if ($errors->any())
-                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
+    <div class="bg-white rounded-lg shadow-md overflow-hidden mb-4 p-6">
+        <form action="{{ route('books.update', $books) }}" method="POST">
+            @csrf
+            @method('PUT')
             
-            <form action="{{ route('books.update', $books) }}" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="mb-5">
-                    <label for="nama_buku" class="block text-sm font-medium mb-2">Nama Buku</label>
-                    <input type="text" id="nama_buku" name="nama_buku" value="{{ old('nama_buku', $books->nama_buku) }}" placeholder="Masukkan judul buku" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                </div>
-
-                <div class="mb-5">
-                    <label for="penerbit" class="block text-sm font-medium mb-2">Penerbit</label>
-                    <input type="text" id="penerbit" name="penerbit" value="{{ old('penerbit', $books->penerbit) }}" placeholder="Nama penerbit" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
-                </div>
-
-                <div class="mb-5">
-                    <label for="description" class="block text-sm font-medium mb-2">Deskripsi</label>
-                    <textarea id="description" name="description" placeholder="Deskripsi singkat tentang buku" rows="5" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">{{ old('description', $books->description) }}</textarea>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-5">
-                    <div>
-                        <label for="tahun_terbit" class="block text-sm font-medium mb-2">Tahun Terbit</label>
-                        <input type="number" id="tahun_terbit" name="tahun_terbit" value="{{ old('tahun_terbit', $books->tahun_terbit) }}" placeholder="Contoh: 2023" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <div class="mb-4">
+                        <label for="nama_buku" class="block text-sm font-medium text-gray-700 mb-1">Book Name</label>
+                        <input type="text" name="nama_buku" id="nama_buku" value="{{ old('nama_buku', $books->nama_buku) }}" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                        @error('nama_buku')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
-
-                    <div>
-                        <label for="jumlah_halaman" class="block text-sm font-medium mb-2">Jumlah Halaman</label>
-                        <input type="number" id="jumlah_halaman" name="jumlah_halaman" value="{{ old('jumlah_halaman', $books->jumlah_halaman) }}" placeholder="Contoh: 320" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                    
+                    <div class="mb-4">
+                        <label for="penerbit" class="block text-sm font-medium text-gray-700 mb-1">Publisher</label>
+                        <input type="text" name="penerbit" id="penerbit" value="{{ old('penerbit', $books->penerbit) }}" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                        @error('penerbit')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="mb-4">
+                            <label for="tahun_terbit" class="block text-sm font-medium text-gray-700 mb-1">Publication Year</label>
+                            <input type="number" name="tahun_terbit" id="tahun_terbit" value="{{ old('tahun_terbit', $books->tahun_terbit) }}" min="1900" max="{{ date('Y') }}" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            @error('tahun_terbit')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="jumlah_halaman" class="block text-sm font-medium text-gray-700 mb-1">Number of Pages</label>
+                            <input type="number" name="jumlah_halaman" id="jumlah_halaman" value="{{ old('jumlah_halaman', $books->jumlah_halaman) }}" min="1" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            @error('jumlah_halaman')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
                     </div>
                 </div>
-
-                <div class="flex justify-end space-x-4">
-                    <a href="{{ route('books.index') }}" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50">Batal</a>
-                    <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700">Simpan</button>
+                
+                <div>
+                    <div class="mb-4">
+                        <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                        <textarea name="description" id="description" rows="8" class="w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>{{ old('description', $books->description) }}</textarea>
+                        @error('description')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
-            </form>
-        </div>
+            </div>
+            
+            <div class="mt-6 flex justify-end">
+                <button type="submit" class="bg-yellow-600 hover:bg-yellow-700 text-white py-2 px-4 rounded-lg transition duration-200">
+                    Update Book
+                </button>
+            </div>
+        </form>
     </div>
 </main>
-
 @endsection

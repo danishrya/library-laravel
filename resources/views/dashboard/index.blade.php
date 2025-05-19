@@ -4,12 +4,6 @@
 <div class="space-y-6 w-full">
     <div class="flex item-center justify-betweeen">
         <h1 class="text-2xlfont-boldtext-gray-900">dashboard</h1>
-        {{-- @if(Auth::user()->isAdmin())
-        <a href="{{ route('books.create') }}" class="bg-primary text-white px-4 py-2 rounded-md flex items-center gap-2 hover:bg-primary-dark " >
-            <i class="fas-fa-plus"></i>
-            tambah buku
-        </a>
-        @endif --}}
     </div>
 </div>
 <main class="flex-1 overflow-y-auto p-5">

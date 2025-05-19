@@ -11,15 +11,23 @@ class BooksController extends Controller
      */
     public function index()
     {
-        $books = Book::all();
+        $books = Book::latest()->paginate(10); // Changed from all() to paginate(10)
         return view("books.index", compact('books'));
     }
 
-    public function create(){
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
         return view("books.create");
     }
 
-    public function store(Request $request){
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
         $request->validate([
             'nama_buku' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
@@ -30,19 +38,30 @@ class BooksController extends Controller
 
         Book::create($request->all());
         return redirect()->route('books.index')
-        ->with('success', 'Buku berhasil ditambahkan');
-        
+            ->with('success', 'Buku berhasil ditambahkan');
     }
 
-    public function show(Book $books){
+    /**
+     * Display the specified resource.
+     */
+    public function show(Book $books)
+    {
         return view('books.show', compact('books'));
     }
 
-    public function edit(Book $books){
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Book $books)
+    {
         return view('books.edit', compact('books'));
     }
     
-    public function update(Request $request, Book $books){
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, Book $books)
+    {
         $request->validate([
             'nama_buku' => 'required|string|max:255',
             'penerbit' => 'required|string|max:255',
@@ -50,16 +69,21 @@ class BooksController extends Controller
             'tahun_terbit' => 'required|integer|min:1900|max:'.date('Y'),
             'jumlah_halaman' => 'required|integer|min:1',
         ]);
+        
         $books->update($request->all());
 
         return redirect()->route('books.index')
-        ->with('success', 'Buku berhasil diupdate');
+            ->with('success', 'Buku berhasil diupdate');
     }
     
-    public function destroy(Book $books){
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Book $books)
+    {
         $books->delete();
         
         return redirect()->route('books.index')
-        ->with('success', 'Buku berhasil dihapus');
+            ->with('success', 'Buku berhasil dihapus');
     }
 }
