@@ -25,8 +25,8 @@
         <div class="flex flex-col md:flex-row">
             <div class="md:w-1/3 flex flex-col items-center mb-6 md:mb-0">
                 <img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Sarah Johnson" class="w-40 h-40 rounded-full object-cover border-4 border-indigo-100">
-                <h2 class="text-xl font-semibold mt-4">Sarah Johnson</h2>
-                <p class="text-gray-500">Member</p>
+                <h2 class="text-xl font-semibold mt-4">{{ Auth::user()->firstName }}  {{ Auth::user()->lastName }}</h2>
+                <p class="text-gray-500">{{ Auth::user()->role }}</p>
                 <div class="mt-2">
                     <span class="status-badge status-active">
                         Active
@@ -47,37 +47,33 @@
             <div class="md:w-2/3 md:pl-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <h3 class="text-sm font-medium text-gray-500">Full Name</h3>
-                        <p class="text-base">Sarah Johnson</p>
+                        <h3 class="text-sm font-medium text-gray-500">FIRSTNAME</h3>
+                        <p class="text-base">{{ Auth::user()->firstName }}</p>
                     </div>
                     <div>
-                        <h3 class="text-sm font-medium text-gray-500">Email Address</h3>
-                        <p class="text-base">sarah.johnson@example.com</p>
+                        <h3 class="text-sm font-medium text-gray-500">LASTNAME</h3>
+                        <p class="text-base">{{ Auth::user()->lastName  }}</p>
                     </div>
                     <div>
-                        <h3 class="text-sm font-medium text-gray-500">Phone Number</h3>
-                        <p class="text-base">+1 (555) 123-4567</p>
+                        <h3 class="text-sm font-medium text-gray-500">EMAIL Address</h3>
+                        <p class="text-base">{{ Auth::user()->email  }}</p>
                     </div>
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500">Member Since</h3>
-                        <p class="text-base">January 15, 2023</p>
-                    </div>
-                    <div>
+                    {{-- <div>
                         <h3 class="text-sm font-medium text-gray-500">User ID</h3>
                         <p class="text-base">USR-001</p>
+                    </div> --}}
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">created at</h3>
+                        <p class="text-base">{{ Auth::user()->created_at }}</p>
                     </div>
                     <div>
-                        <h3 class="text-sm font-medium text-gray-500">Last Login</h3>
-                        <p class="text-base">Today, 09:45 AM</p>
+                        <h3 class="text-sm font-medium text-gray-500">updated_at</h3>
+                        <p class="text-base">{{ Auth::user()->updated_at }}</p>
                     </div>
-                    <div>
-                        <h3 class="text-sm font-medium text-gray-500">Address</h3>
-                        <p class="text-base">123 Main Street, Apt 4B<br>New York, NY 10001</p>
-                    </div>
-                    <div>
+                    {{-- <div>
                         <h3 class="text-sm font-medium text-gray-500">Membership Type</h3>
                         <p class="text-base">Premium (Annual)</p>
-                    </div>
+                    </div> --}}
                 </div>
                 
                 <div class="mt-6">
@@ -90,7 +86,7 @@
         </div>
     </div>
     
-    <!-- Tabs -->
+    {{-- <!-- Tabs -->
     <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="border-b border-gray-200">
             <div class="flex space-x-8">
@@ -421,6 +417,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </main>
 @endsection

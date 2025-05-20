@@ -25,20 +25,31 @@ Route::middleware('auth')->group(function () {
     Route::get('/books', [BooksController::class, 'index'])->name('books.index');
     Route::get('/books/{books}', [BooksController::class, 'show'])->name('books.show'); // Show route should be placed here
 
-   // Books routes
-    Route::post('/books/create', [BooksController::class, 'create'])->name('books.create');
-    Route::get('/books', [BooksController::class, 'index'])->name('books.index');
-    Route::post('/books', [BooksController::class, 'store'])->name('books.store');
-    Route::get('/books/{books}', [BooksController::class, 'show'])->name('books.show');
-    Route::get('/books/{books}/edit', [BooksController::class, 'edit'])->name('books.edit');
-    Route::put('/books/{books}', [BooksController::class, 'update'])->name('books.update');
-    Route::delete('/books/{books}', [BooksController::class, 'destroy'])->name('books.destroy');
-    
+    // // Admin-only routes
+    // Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
+    //     Route::get('/books/create', [BooksController::class, 'create'])->name('books.create');
+    //     Route::post('/books', [BooksController::class, 'store'])->name('books.store');
+    //     Route::get('/books/{books}/edit', [BooksController::class, 'edit'])->name('books.edit');
+    //     Route::put('/books/{books}', [BooksController::class, 'update'])->name('books.update');
+    //     Route::delete('/books/{books}', [BooksController::class, 'destroy'])->name('books.destroy');
+    // });
+
+       // Admin-only routes
+   
+        Route::get('/books/create', [BooksController::class, 'create'])->name('books.create');
+        Route::post('/books', [BooksController::class, 'store'])->name('books.store');
+        Route::get('/books/{books}/edit', [BooksController::class, 'edit'])->name('books.edit');
+        Route::put('/books/{books}', [BooksController::class, 'update'])->name('books.update');
+        Route::delete('/books/{books}', [BooksController::class, 'destroy'])->name('books.destroy');
 });
 
 route::get('/user', function () {
     return view('user.user');
 })->middleware('auth')->name('user');
+
+route::get('/user.detail', function () {
+    return view('user.users_detail');
+})->middleware('auth')->name('user.detail');
 
 // Fallback route for 404 errors
 // Route::fallback(function () {

@@ -20,11 +20,11 @@
         <div class="dropdown">
             <button class="flex items-center space-x-2 focus:outline-none">
                 <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="User" class="w-8 h-8 rounded-full">
-                <span class="font-medium text-gray-700">Admin User</span>
+                <span class="font-medium text-gray-700">HELLO {{ Auth::user()->lastName }}</span>
                 <i class="fas fa-chevron-down text-xs text-gray-500"></i>
             </button>
             <div class="dropdown-content">
-                <a href="{{ route('user') }}" class="dropdown-item">
+                <a href="{{ route('user.detail') }}" class="dropdown-item">
                     <i class="fas fa-user mr-2"></i> Profile
                 </a>
                 <a href="#" class="dropdown-item">
