@@ -21,37 +21,31 @@ Route::middleware('auth')->group(function () {
     // Dashboard route
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     
-    // Books routes
+    // Books routes - URUTAN PENTING
     Route::get('/books', [BooksController::class, 'index'])->name('books.index');
-    Route::get('/books/{books}', [BooksController::class, 'show'])->name('books.show'); // Show route should be placed here
-
-    // // Admin-only routes
-    // Route::middleware(['admin'])->prefix('admin')->name('admin.')->group(function () {
-    //     Route::get('/books/create', [BooksController::class, 'create'])->name('books.create');
-    //     Route::post('/books', [BooksController::class, 'store'])->name('books.store');
-    //     Route::get('/books/{books}/edit', [BooksController::class, 'edit'])->name('books.edit');
-    //     Route::put('/books/{books}', [BooksController::class, 'update'])->name('books.update');
-    //     Route::delete('/books/{books}', [BooksController::class, 'destroy'])->name('books.destroy');
-    // });
-
-       // Admin-only routes
-   
-        Route::get('/books/create', [BooksController::class, 'create'])->name('books.create');
-        Route::post('/books', [BooksController::class, 'store'])->name('books.store');
-        Route::get('/books/{books}/edit', [BooksController::class, 'edit'])->name('books.edit');
-        Route::put('/books/{books}', [BooksController::class, 'update'])->name('books.update');
-        Route::delete('/books/{books}', [BooksController::class, 'destroy'])->name('books.destroy');
+    
+    // Rute create HARUS sebelum rute show yang menggunakan parameter {books}
+    Route::get('/books/create', [BooksController::class, 'create'])->name('books.create');
+    Route::post('/books', [BooksController::class, 'store'])->name('books.store');
+    
+    // Rute edit juga harus sebelum show
+    Route::get('/books/{books}/edit', [BooksController::class, 'edit'])->name('books.edit');
+    Route::put('/books/{books}', [BooksController::class, 'update'])->name('books.update');
+    Route::delete('/books/{books}', [BooksController::class, 'destroy'])->name('books.destroy');
+    
+    // Rute show harus di AKHIR karena pattern-nya lebih umum
+    Route::get('/books/{books}', [BooksController::class, 'show'])->name('books.show');
 });
 
-route::get('/user', function () {
+Route::get('/user', function () {
     return view('user.user');
 })->middleware('auth')->name('user');
 
-route::get('/user.detail', function () {
+Route::get('/user.detail', function () {
     return view('user.users_detail');
 })->middleware('auth')->name('user.detail');
 
-// Fallback route for 404 errors
+// Uncomment ini jika diperlukan
 // Route::fallback(function () {
 //     return view('errors.404');
 // });
